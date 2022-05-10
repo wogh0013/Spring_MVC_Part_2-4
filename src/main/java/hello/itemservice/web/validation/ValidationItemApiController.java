@@ -4,19 +4,21 @@ import hello.itemservice.web.validation.form.ItemSaveForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RestController 
+@RestController // ResponseBody 내포
 @RequestMapping("/validation/api/items")
 public class ValidationItemApiController {
 
-//    @ResponseBody -> @RestController로 인해 자동 입력
     @PostMapping("/add")
     public Object addItem(@RequestBody @Validated ItemSaveForm form, BindingResult bindingResult){
-
         log.info("API 컨트롤러 호출");
 
+        //@RestController로 인해 return 값이 JSON 객체로 변환
         if(bindingResult.hasErrors()){
             log.info("검증 오류 발생 errors={}", bindingResult);
             return bindingResult.getAllErrors();
